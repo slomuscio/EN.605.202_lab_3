@@ -51,6 +51,18 @@ def prefix_traversal(huffman_tree):
     pass 
 
 
+def is_binary(input_string:str) -> bool: 
+    """Determine if input string is a binary expression (contains only 0s and 1s). 
+
+    Args:
+        input_string (str): Input string. 
+
+    Returns:
+        bool: True if input string is binary expression. 
+    """
+    return set(input_string).issubset({'0', '1'})
+
+
 def encode_string(input_string, codes_dict):
     # encoded_string = ""
     input_string = input_string.upper()

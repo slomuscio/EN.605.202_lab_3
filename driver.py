@@ -62,11 +62,19 @@ def main():
 
         for input_string in input_f:
 
+            input_string = input_string.replace(' ', '')  # Remove all spaces from the input strings. 
+                                                          # NOT SURE IF THIS IS THE BEST WAY TO GO ABOUT THIS. will think about it more. Maybe better clean_up_input() function? 
+
             if len(input_string)==0:  # Skip empty lines in the input file. 
                 continue 
 
-            encoded_string = encode_string(input_string, sorted_huffman_codes_dict)
-            print(f"INPUT STRING:\t{input_string}\nENCODED_STRING:\t{encoded_string}")
+            if is_binary(input_string):  # Decode the string if it is binary expression. 
+                print(f"INPUT STRING: {input_string}")
+                print("---BINARY STRING, MUST DECODE---\n")
+                # decode_string()
+            else:  # Encode the string if it is not a binary expression. 
+                encoded_string = encode_string(input_string, sorted_huffman_codes_dict)
+                print(f"INPUT STRING:\t{input_string}\nENCODED_STRING:\t{encoded_string}\n")
 
 
 if __name__=="__main__":
