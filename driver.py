@@ -46,16 +46,14 @@ def main():
         heapq.heappush(heap, HuffmanNode(char, freq))
 
     # Make Huffman Tree using the heap
-    heap = build_huffman_tree(heap)
+    huffman_tree = build_huffman_tree(heap)
+
+    # Print preorder traversal of tree
+    preorder_traversal(huffman_tree[0])
 
     # Get the codes from the Huffman Tree 
-    # Start at the root node of the Huffman Tree (heap[0])
-    huffman_codes_dict = huffman_codes(heap[0])
-    # Sort huffman_codes_dict so keys are alphabetical 
-    sorted_code_keys = sorted(huffman_codes_dict.keys())
-    sorted_huffman_codes_dict = {key: huffman_codes_dict[key] for key in sorted_code_keys}
-
-    print(sorted_huffman_codes_dict)
+    huffman_codes_dict = huffman_codes(huffman_tree[0])  # Start at the root node of the Huffman Tree (heap[0])
+    print(huffman_codes_dict)
 
     # Generate codes for the input cases contained in input_output/input.txt file. 
     with open(input_file, 'r') as input_f:
