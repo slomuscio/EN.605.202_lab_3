@@ -60,25 +60,18 @@ def main():
 
         for input_string in input_f:
 
-            input_string_clean = input_string.strip().replace(' ', '')  # Remove all spaces from the input strings. 
-                                                          # NOT SURE IF THIS IS THE BEST WAY TO GO ABOUT THIS. will think about it more. Maybe better clean_up_input() function? 
-            # print(f"\"{input_string}\"")
+            input_string_clean = input_string.strip().replace(' ', '')  # Clean up input strings. 
 
-            # print(len(input_string))
             if len(input_string_clean)==0:  # Skip empty lines in the input file. 
                 continue 
 
             if is_binary(input_string_clean):  # Decode the string if it is binary expression. 
-                # print('~~~~~binary~~~~~')
                 decoded_string = decode_string(input_string_clean, huffman_tree[0])
-                # print(f"INPUT STRING:\t{input_string}\nDECODED_STRING:\t{decoded_string}\n")
                 format_output(input_string, decoded_string, True)
 
             else:  # Encode the string if it is not a binary expression. 
-                # print('=====alpbahetic=====')
                 encoded_string = encode_string(input_string_clean, huffman_codes_dict)
                 format_output(input_string, encoded_string, False)
-                # print(f"INPUT STRING:\t{input_string}\nENCODED_STRING:\t{encoded_string}\n")
 
 
 if __name__=="__main__":

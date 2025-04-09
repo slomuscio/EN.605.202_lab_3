@@ -115,11 +115,11 @@ def decode_string(input_string:str, huffman_node:HuffmanNode) -> str:
 
     for bit in input_string:
         if bit == '0':
-            current_node = huffman_node.left  # Go to left subtree if bit is 0. 
+            current_node = current_node.left  # Go to left subtree if bit is 0. 
         elif bit == '1': 
-            current_node = huffman_node.right  # Go to right subtree if bit is 1.
+            current_node = current_node.right  # Go to right subtree if bit is 1.
 
-        if huffman_node.is_leaf:
+        if current_node.is_leaf:
             decoded_string.append(current_node.char)  # Append character of leaf node to decoded_string. 
             current_node = huffman_node  # Reset the current node to be the root node to start again for next character. 
 
@@ -139,7 +139,14 @@ def is_binary(input_string:str) -> bool:
 
 
 def format_output(input_string:str, output_string:str, is_binary:bool) -> None:
-    print("===================================================================")
+    """Formats and prints string encodings/decodings to be easily readable. 
+
+    Args:
+        input_string (str): Input string to be either encoded or decoded. 
+        output_string (str): Output string either encoded or decoded. 
+        is_binary (bool): True if input_string is binary.
+    """
+    print("\n===================================================================")
     print(f"Input String:\n\t{input_string}")
     if is_binary:
         print(f"Decoded String:\n\t{output_string}")
