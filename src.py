@@ -79,14 +79,14 @@ def preorder_traversal(huffman_node:HuffmanNode) -> None:
     if huffman_node is None:  # Base case, when to terminate recursion 
         return 
 
-    print(f"{huffman_node.char} ({huffman_node.freq})")  # Current node 
+    print(f"\t{huffman_node.char} ({huffman_node.freq})")  # Current node 
 
     preorder_traversal(huffman_node.left)  # Traverse left subtree 
     preorder_traversal(huffman_node.right)  # Traverse right subtree 
 
 
 def encode_string(input_string:str, codes_dict:dict) -> str:
-    """Encodes alphabetical string into binary using the Huffman Tree code dictionary (ourput of huffman_codes() function).
+    """Encodes alphabetical string into binary using the Huffman Tree code dictionary (ourput of huffman_codes() function). Characters that are non-alphabetic (numbers, puncutaion) are skipped/ignored. 
 
     Args:
         input_string (str): Input alphabetical string to encode. 
@@ -96,6 +96,10 @@ def encode_string(input_string:str, codes_dict:dict) -> str:
         str: Binary encoded form of input_string. 
     """
     input_string = input_string.upper()  # Make all characters uppercase to match keys in codes_dict. 
+
+    if not any(char.isalpha() for char in input_string):
+        raise Exception("String contains no valid characters. Cannot encode.")
+
     encoded_string = "".join(codes_dict[char] for char in input_string if char in codes_dict)  # Replace alphabetical chars with corresponding Huffman code. 
     return encoded_string
 
@@ -123,6 +127,9 @@ def decode_string(input_string:str, huffman_node:HuffmanNode) -> str:
             decoded_string.append(current_node.char)  # Append character of leaf node to decoded_string. 
             current_node = huffman_node  # Reset the current node to be the root node to start again for next character. 
 
+    if current_node != huffman_node:  # Check for leftover bits (incomplete code)
+        raise Exception("Incomplete encoded string: ended mid-character.")
+    
     return ''.join(decoded_string)
 
 
@@ -138,18 +145,23 @@ def is_binary(input_string:str) -> bool:
     return set(input_string).issubset({'0', '1'})
 
 
-def format_output(input_string:str, output_string:str, is_binary:bool) -> None:
+def format_output(input_string:str, output_string:str, is_binary:bool, error=None) -> None:
     """Formats and prints string encodings/decodings to be easily readable. 
 
     Args:
         input_string (str): Input string to be either encoded or decoded. 
         output_string (str): Output string either encoded or decoded. 
         is_binary (bool): True if input_string is binary.
+        error (): Error to log. Defaults to None. 
     """
-    print("\n===================================================================")
-    print(f"Input String:\n\t{input_string}")
-    if is_binary:
-        print(f"Decoded String:\n\t{output_string}")
+    print("\n\t-------------------------------------------------------------------")
+    print(f"\tInput String:\n\t\t{input_string}")
+
+    if error is None: 
+        if is_binary:
+            print(f"\tDecoded String:\n\t\t{output_string}")
+        else: 
+            print(f"\tEncoded String:\n\t\t{output_string}")
     else: 
-        print(f"Encoded String:\n\t{output_string}")
-    print("===================================================================")
+        print(f"\tERROR:\n\t\t{error}")
+    print("\t-------------------------------------------------------------------")
